@@ -1,9 +1,11 @@
 package com.akl.tms.tds.repo.model;
 
 import org.neo4j.ogm.annotation.EndNode;
+import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.RelationshipEntity;
 import org.neo4j.ogm.annotation.StartNode;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +15,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 @RelationshipEntity(type = "executes")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"testSuiteRun","testCase"})
-@ToString
+@ToString(exclude = {"testSuiteRun","testCase"})
 public class TestSuiteRunExecutesTestCaseRelationship {
 
+	@GraphId 
+	private Long id;
+	
 	@StartNode
 	@Getter
 	@Setter
@@ -34,7 +39,7 @@ public class TestSuiteRunExecutesTestCaseRelationship {
 	private TestState state;
 	
 	@Getter
-	@NonNull
+	@Setter
 	private String info;
 	
 }

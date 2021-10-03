@@ -9,6 +9,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,9 @@ import lombok.ToString;
 
 
 @NodeEntity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "name")
 @ToString(exclude = {"description","testSuiteRuns","testCases"})
 public class TestSuite {
 
@@ -47,7 +48,7 @@ public class TestSuite {
 	// ----------------------------------------------
 	
 	public Set<TestSuiteRun> getTestSuiteRuns() {
-		return Optional.ofNullable(testSuiteRuns).orElse(Collections.emptySet());
+		return Collections.unmodifiableSet( Optional.ofNullable(testSuiteRuns).orElse(Collections.emptySet()) );
 	}
 	
 	public void addTestSuiteRun(TestSuiteRun testSuiteRun) {
@@ -59,7 +60,7 @@ public class TestSuite {
 	
 	
 	public Set<TestCase> getTestCases() {
-		return Optional.ofNullable(testCases).orElse(Collections.emptySet());
+		return Collections.unmodifiableSet( Optional.ofNullable(testCases).orElse(Collections.emptySet()) );
 	}
 	
 	public void addTestCase(TestCase testCase) {
